@@ -52,6 +52,13 @@ module ML10n
           # might raise a real error here in the future
           p e.inspect
         else
+          tag = Locale::Tag.parse(File.basename(l_file).split('.')[0])
+          if !l_hash.has_key?(LANGUAGE_CODE_KEY) && tag.language
+            l_hash[LANGUAGE_CODE_KEY] = tag.language
+          end
+          if !l_hash.has_key?(COUNTRY_CODE_KEY) && tag.country
+            l_hash[COUNTRY_CODE_KEY] = tag.country
+          end
           load_localization_hash(l_hash)
         end
       end

@@ -49,7 +49,12 @@ describe '#babelize' do
   it "should translate passing the language" do
     @c.t(:greetings, :language => 'fr').should == 'Salut'
   end
-  
+
+  it "should see mloc_country_code" do
+    @c.t("城", :language => 'ja').should == "しろ"
+    @c.t("城", :language => 'ja', :country => 'Okinawa').should == "ぐすく"
+  end
+
   it "should translate with domain" do
     @c.t(:night, :greetings, :language => 'en').should == 'Good evening'
     @c.t(:night, :greetings, :language => 'ja').should == 'こんばんわ'

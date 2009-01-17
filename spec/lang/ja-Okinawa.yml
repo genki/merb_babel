@@ -6,8 +6,8 @@
 #################################################
 mloc_language_code: ja
 # Optional, the following key has the name of the localized language in its ow language.
-mloc_language_name: Japanese
-# mloc_country:
+mloc_language_name: Japanese (Okinawa dialect)
+mloc_country_code: Okinawa
 #################################################
 
 
@@ -18,7 +18,7 @@ greetings: こんにちわ
 night:
   greetings: こんばんわ
 
-城: しろ
+城: ぐすく
 
 DateFormat:
   AbbrDayNames: ["日", "月", "火", "水", "木", "金", "土"]
