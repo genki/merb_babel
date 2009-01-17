@@ -1,5 +1,3 @@
-require 'merb_babel/locale_detector'
-require 'locale'
 
 # The MLocale module helps you set up a locale, language, country
 # You don't have to use a locale, in some cases you might just want to use the language
@@ -78,6 +76,15 @@ module MLocale
       /(.+)\-([a-z]{2})/i
     end
     
+    # You can extend this method in application.rb
+    # example:
+    #
+    #   def set_locale
+    #     super
+    #     session[:language] = language
+    #   end
+    #
+    #
     # takes a locale as in fr-FR or en-US
     def set_locale
       if locale =~ locale_regexp
