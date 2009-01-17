@@ -106,7 +106,10 @@ module ML10n
       table_for = proc do |table_name, key, default|
         keys = ["DateFormat", table_name]
         table = MI18n.lookup(options.merge(:keys => keys)) || {}
-        table[key] || default
+        case table
+        when Hash, Array; table[key] || default
+        else default
+        end
       end
       format = format.to_s.dup
       format.gsub!(/%a/) do
@@ -146,7 +149,5 @@ module ML10n
         end
       end
     end
-    
   end
-  
 end

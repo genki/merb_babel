@@ -7,6 +7,9 @@ module MI18n
 
     raise ArgumentError, "You need to pass a language reference" unless language
     raise ArgumentError, "You need to pass a localization key" if keys.empty?
+    unless ML10n.localizations[language]
+      language = Merb::Plugins.config[:merb_babel][:default_language]
+    end
     raise ArgumentError,
       "language: #{language} not found" unless ML10n.localizations[language]
     

@@ -53,6 +53,7 @@ describe '#babelize' do
   it "should translate with domain" do
     @c.t(:night, :greetings, :language => 'en').should == 'Good evening'
     @c.t(:night, :greetings, :language => 'ja').should == 'こんばんわ'
+    @c.t(:night, :greetings, :language => 'tlh').should == 'Good evening'
   end
 
   it "should localize date" do
@@ -72,8 +73,15 @@ describe '#babelize' do
     time = Time.now
     if time.hour < 12
       @c.t("%p", time, :language => "ja").should == "午前"
+      @c.t("%p", time, :language => "en").should == "AM"
     else
       @c.t("%p", time, :language => "ja").should == "午後"
+      @c.t("%p", time, :language => "en").should == "PM"
     end
+  end
+
+  it "should localize time by using default yml if correct one is lacking" do
+    date = Date.new(2009,1,1)
+    @c.t("%B", date, :language => 'tlh').should == "January"
   end
 end
