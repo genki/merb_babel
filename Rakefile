@@ -56,3 +56,18 @@ task :spec do
 end
 
 task :default => :spec
+
+desc "Upload gem"
+task :upload => :gem do
+  require 'httpclient'
+  require 'uuidtools'
+  boundary = UUID.random_create.to_s
+  http = HTTPClient.new
+  files = Dir.glob(File.join(File.dirname(__FILE__), "pkg", "*.gem"))
+  break
+  open(files.sort.last) do |file|
+    http.post_content("http://merbi.st/gems",
+      "file" => file,
+      "content-type" => "multipart/form-data, boundary=#{boundary}")
+  end
+end

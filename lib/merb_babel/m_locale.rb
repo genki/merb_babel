@@ -24,17 +24,22 @@ module MLocale
 
   # A locale is made of a language + country code, such as en-UK or en-US 
   def locale 
-    request.env[:locale] || params[:locale] || (session ? session[:locale] : nil) || locale_from_request || default_locale
+    request.env[:locale] || params[:locale] ||
+      (session ? session[:locale] : nil) ||
+      locale_from_request || default_locale
   end
   
   # Many people don't care about locales, they might just want to use languages instead
   def language
-    request.env[:language] || params[:language] || language_from_locale || (session ? session[:language] : nil) || default_language
+    request.env[:language] || params[:language] || language_from_locale ||
+      (session ? session[:language] : nil) || default_language
   end
   
   # The country is used when localizing currency or time
   def country
-    request.env[:country] || params[:country] || country_from_locale || (session ? session[:country] : nil) || LocaleDetector.country_from_language(language) || default_country
+    request.env[:country] || params[:country] ||
+      country_from_locale || (session ? session[:country] : nil) ||
+      LocaleDetector.country_from_language(language) || default_country
   end
   
   # Extract the language from the locale
@@ -57,15 +62,18 @@ module MLocale
   # the Merb::Plugins.config[:merb_abel] hash in your settings
   #
     def default_locale
-      Merb::Plugins.config[:merb_babel] ? Merb::Plugins.config[:merb_babel][:default_locale] : nil
+      Merb::Plugins.config[:merb_babel] ?
+        Merb::Plugins.config[:merb_babel][:default_locale] : nil
     end
 
     def default_language
-      Merb::Plugins.config[:merb_babel] ? Merb::Plugins.config[:merb_babel][:default_language] : nil
+      Merb::Plugins.config[:merb_babel] ?
+        Merb::Plugins.config[:merb_babel][:default_language] : nil
     end
   
     def default_country
-      Merb::Plugins.config[:merb_babel] ? Merb::Plugins.config[:merb_babel][:default_country] : nil
+      Merb::Plugins.config[:merb_babel] ?
+        Merb::Plugins.config[:merb_babel][:default_country] : nil
     end
   #
   #### end of defaults
@@ -94,7 +102,6 @@ module MLocale
         country = country.upcase
         request.env[:locale] = "#{language}-#{country}"
       end
-      
     end
   
     def set_language
