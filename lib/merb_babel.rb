@@ -7,7 +7,7 @@ if defined?(Merb::Plugins)
   Merb::Plugins.config[:merb_babel] = {
     :default_locale => 'en-US',
     :default_language => 'en',
-    # :default_country => 'US',
+    :default_country => 'US',
     :localization_dirs => ["#{Merb.root}/lang"]
   }
   
@@ -15,6 +15,7 @@ if defined?(Merb::Plugins)
   require File.join(File.dirname(__FILE__) / "merb_babel" / "m_l10n")
   require File.join(File.dirname(__FILE__) / "merb_babel" / "m_i18n")
   require File.join(File.dirname(__FILE__) / "merb_babel" / "string")
+  require File.join(File.dirname(__FILE__) / "merb_babel" / "time")
   require File.join(File.dirname(__FILE__) / "merb_babel" / 'locale_detector')
   gem "locale"
   require 'locale'
@@ -33,10 +34,15 @@ if defined?(Merb::Plugins)
             options[:country] ||= country
             case key = args.last
             when Date, Time
-              format = MI18n.lookup(options.merge(:keys => args[0..-2]))
-              ML10n.localize_time(key, format, options)
+              if args.size >= 2
+                format = MI18n.lookup(options.merge(:keys => args[0..-2]))
+                ML10n.localize_time(key, format, options)
+              else
+                MerbBabel::Time.new(key.to_time, self)
+              end
             when Numeric
               formats = MI18n.lookup(options.merge(:keys => args[0..-2]))
+              formats = formats.to_a
               format = key <= 0 ? nil : formats[key - 1] || nil
               (format || formats.last) % key
             else

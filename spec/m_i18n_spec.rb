@@ -104,4 +104,10 @@ describe '#babelize' do
     @c.t(keys, 0).should == "0 books"
     @c.t(keys, -1).should == "-1 books"
   end
+
+  it "should localize time_lost_in_words" do
+    @c.t(Time.now).class.should == MerbBabel::Time
+    @c.t(DateTime.now).class.should == MerbBabel::Time
+    @c.t(Time.now - 3*60).lost_in_words.should == "3 minutes"
+  end
 end

@@ -19,7 +19,7 @@ module ML10n
     # locales, including languages and countries use string keys while
     # localization keys themselves are symbols  
     def localizations
-      @@localizations ||= {}
+      @@localizations ||= reset_localizations!
     end
   
     # files containing localizations
@@ -98,7 +98,23 @@ module ML10n
     end
 
     def reset_localizations!
-      @@localizations = {}
+      @@localizations = {
+        Merb::Plugins.config[:merb_babel][:default_language].to_s => {
+          Merb::Plugins.config[:merb_babel][:default_country].to_s => {
+            "DateFormat" => {
+              "less than %d second" => [
+                "less than %d second", "less than %d seconds"],
+              "%d minute" => ["%d minute", "%d minutes"],
+              "about %d hour" => ["about %d hour", "about %d hours"],
+              "%d day" => ["%d day", "%d days"],
+              "about %d month" => ["about %d month", "about %d months"],
+              "%d month" => ["%d month", "%d months"],
+              "about %d year" => ["about %d year", "about %d years"],
+              "over %d year" => ["over %d year", "over %d years"]
+            }
+          }
+        }
+      }
     end
   
     def reload_localization_files!
