@@ -11,3 +11,6 @@ mloc_country_code: UK
 #################################################
 
 greetings: Heya
+
+DateFormat:
+  AbbrDayNames: ["S", "M", "T", "W", "T", "F", "S"]

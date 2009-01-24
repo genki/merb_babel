@@ -17,7 +17,8 @@ describe "MerbBabel::Time" do
   end
 
   it "should be able to be converted into words" do
-    time_ago = proc{|ago| MerbBabel::Time.new(Time.now - ago, @c)}
+    options = {:language => 'en'}
+    time_ago = proc{|ago| MerbBabel::Time.new(Time.now - ago, options)}
     time_ago[1*60].ago_in_words.should == "1 minute"
     time_ago[3*60].ago_in_words.should == "3 minutes"
     time_ago[20].ago_in_words.should == "less than a minute"
@@ -31,11 +32,11 @@ describe "MerbBabel::Time" do
     time_ago[4*30*24*60*60].ago_in_words.should == "4 months"
     time_ago[13*30*24*60*60].ago_in_words.should == "about 1 year"
     time_ago[3.5*12*30*24*60*60].ago_in_words.should == "over 3 years"
-    options = {:include_seconds => true}
-    time_ago[1].ago_in_words(options).should == "less than 5 seconds"
-    time_ago[6].ago_in_words(options).should == "less than 10 seconds"
-    time_ago[16].ago_in_words(options).should == "less than 20 seconds"
-    time_ago[26].ago_in_words(options).should == "half a minute"
-    time_ago[56].ago_in_words(options).should == "less than a minute"
+    options2 = {:include_seconds => true}
+    time_ago[1].ago_in_words(options2).should == "less than 5 seconds"
+    time_ago[6].ago_in_words(options2).should == "less than 10 seconds"
+    time_ago[16].ago_in_words(options2).should == "less than 20 seconds"
+    time_ago[26].ago_in_words(options2).should == "half a minute"
+    time_ago[56].ago_in_words(options2).should == "less than a minute"
   end
 end

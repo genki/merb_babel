@@ -109,5 +109,6 @@ describe '#babelize' do
     @c.t(Time.now).class.should == MerbBabel::Time
     @c.t(DateTime.now).class.should == MerbBabel::Time
     @c.t(Time.now - 3*60).lost_in_words.should == "3 minutes"
+    @c.t(Time.now - 3*60, :language => 'en', :country => "UK").lost_in_words.should == "3 minutes"
   end
 end

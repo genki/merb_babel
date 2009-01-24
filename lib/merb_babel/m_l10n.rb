@@ -2,17 +2,15 @@ module ML10n
   LANGUAGE_CODE_KEY = 'mloc_language_code'.freeze
   COUNTRY_CODE_KEY = 'mloc_country_code'.freeze
   DEFAULT_DATE_FORMAT = {
-    "DateFormat" => {
-      "less than %d second" => [
-        "less than %d second", "less than %d seconds"],
-      "%d minute" => ["%d minute", "%d minutes"],
-      "about %d hour" => ["about %d hour", "about %d hours"],
-      "%d day" => ["%d day", "%d days"],
-      "about %d month" => ["about %d month", "about %d months"],
-      "%d month" => ["%d month", "%d months"],
-      "about %d year" => ["about %d year", "about %d years"],
-      "over %d year" => ["over %d year", "over %d years"]
-    }
+    "less than %d second" => [
+      "less than %d second", "less than %d seconds"],
+    "%d minute" => ["%d minute", "%d minutes"],
+    "about %d hour" => ["about %d hour", "about %d hours"],
+    "%d day" => ["%d day", "%d days"],
+    "about %d month" => ["about %d month", "about %d months"],
+    "%d month" => ["%d month", "%d months"],
+    "about %d year" => ["about %d year", "about %d years"],
+    "over %d year" => ["over %d year", "over %d years"]
   }.freeze
   
   class << self
@@ -112,11 +110,7 @@ module ML10n
 
     def reset_localizations!
       language = Merb::Plugins.config[:merb_babel][:default_language].to_s
-      country = Merb::Plugins.config[:merb_babel][:default_country].to_s
-      @@localizations = {}
-    ensure
-      @@localizations[language] = DEFAULT_DATE_FORMAT.dup
-      @@localizations[language][country] = DEFAULT_DATE_FORMAT.dup
+      @@localizations = {language => {"DateFormat" => DEFAULT_DATE_FORMAT.dup}}
     end
   
     def reload_localization_files!
@@ -159,6 +153,13 @@ module ML10n
       end
       object.strftime(format)
     end
+
+    def localize_ordinal(key, keys, options)
+      formats = MI18n.lookup(options.merge(:keys => keys))
+      formats = formats.to_a
+      format = key <= 0 ? nil : formats[key - 1] || nil
+      (format || formats.last) % key
+    end
   
     protected
   
@@ -169,12 +170,28 @@ module ML10n
           country = l_hash[COUNTRY_CODE_KEY]
           # load localization under the full locale namespace
           ML10n.localizations[language] ||= {}
-          (ML10n.localizations[language][country] ||= {}).merge!(l_hash)
+          merge_localization_hash(
+            ML10n.localizations[language][country] ||= {}, l_hash)
         else
           # load generic language localization
-          (ML10n.localizations[language] ||= {}).merge!(l_hash)
+          merge_localization_hash(ML10n.localizations[language] ||= {}, l_hash)
         end
       end
+    end
+
+    def merge_localization_hash(hash, l_hash)
+      l_hash.keys.each do |key|
+        case value = hash[key]
+        when Hash
+          case l_value = l_hash[key]
+          when Hash
+            merge_localization_hash(hash[key], l_value)
+          else hash[key] = l_value
+          end
+        else hash[key] = l_hash[key]
+        end
+      end
+      hash
     end
   end
 end

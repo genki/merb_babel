@@ -1,9 +1,9 @@
 module MerbBabel
   class Time < ::Time
-    def self.new(time, context = {})
+    def self.new(time, options = {})
       time = at(time)
     ensure
-      time.instance_variable_set(:@context, context)
+      time.instance_variable_set(:@options, options)
     end
 
     def lost_in_words(*args)
@@ -43,7 +43,13 @@ module MerbBabel
 
   private
     def t(*args)
-      @context.t("DateFormat", *args)
+      case args.last
+      when Numeric
+        n = args.pop
+        ML10n.localize_ordinal(n, ["DateFormat", *args], @options)
+      else
+        MI18n.lookup(@options.merge(:keys => ["DateFormat", *args]))
+      end
     end
   end
 end

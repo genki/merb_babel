@@ -38,13 +38,10 @@ if defined?(Merb::Plugins)
                 format = MI18n.lookup(options.merge(:keys => args[0..-2]))
                 ML10n.localize_time(key, format, options)
               else
-                MerbBabel::Time.new(key.to_time, self)
+                MerbBabel::Time.new(key.to_time, options)
               end
             when Numeric
-              formats = MI18n.lookup(options.merge(:keys => args[0..-2]))
-              formats = formats.to_a
-              format = key <= 0 ? nil : formats[key - 1] || nil
-              (format || formats.last) % key
+              ML10n.localize_ordinal(key, args[0..-2], options)
             else
               MI18n.lookup(options.merge(:keys => args))
             end
