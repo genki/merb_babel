@@ -4,8 +4,8 @@ module ML10n
   
   class << self
   
-    # TODO add a mutex for when we load the localizations, in case people want to load the localizations
-    # at runtime
+    # TODO add a mutex for when we load the localizations, in case people want
+    # to load the localizations at runtime
 
     # all localizations are saved in this class variable
     # localizations are namespaced using the language or locale they belong to
@@ -16,7 +16,8 @@ module ML10n
     #   ML10n.localizations['en']['US'][:greeting] => 'Howdie'
     #   ML10n.localizations['en']['AU'][:greeting] => "Good'ay"
     # 
-    # locales, including languages and countries use string keys while localization keys themselves are symbols  
+    # locales, including languages and countries use string keys while
+    # localization keys themselves are symbols  
     def localizations
       @@localizations ||= {}
     end
@@ -28,7 +29,8 @@ module ML10n
   
     # locations to look for localization files
     def localization_dirs
-      @@localization_dirs ||= Merb::Plugins.config[:merb_babel][:localization_dirs].dup
+      @@localization_dirs ||=
+        Merb::Plugins.config[:merb_babel][:localization_dirs].dup
     end
   
     # add a dir to look for localizations

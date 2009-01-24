@@ -29,7 +29,8 @@ module MLocale
       locale_from_request || default_locale
   end
   
-  # Many people don't care about locales, they might just want to use languages instead
+  # Many people don't care about locales, they might just want to use languages
+  # instead
   def language
     request.env[:language] || params[:language] || language_from_locale ||
       (session ? session[:language] : nil) || default_language
