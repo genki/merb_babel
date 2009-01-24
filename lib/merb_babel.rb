@@ -35,6 +35,10 @@ if defined?(Merb::Plugins)
             when Date, Time
               format = MI18n.lookup(options.merge(:keys => args[0..-2]))
               ML10n.localize_time(key, format, options)
+            when Numeric
+              formats = MI18n.lookup(options.merge(:keys => args[0..-2]))
+              format = key <= 0 ? nil : formats[key - 1] || nil
+              (format || formats.last) % key
             else
               MI18n.lookup(options.merge(:keys => args))
             end

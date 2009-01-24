@@ -4,7 +4,8 @@ describe "ML10n" do
   
   before(:each) do
     @lang_test_path = File.expand_path(File.dirname(__FILE__) + "/lang")
-    @lang_test_path_2 = File.expand_path(File.dirname(__FILE__) + "/other_lang_dir")
+    @lang_test_path_2 = File.expand_path(
+      File.dirname(__FILE__) + "/other_lang_dir")
     ML10n.reset_localization_files_and_dirs!
   end
 
@@ -13,7 +14,8 @@ describe "ML10n" do
   end
   
   it "should have a list of localization directories" do
-    ML10n.localization_dirs.should == Merb::Plugins.config[:merb_babel][:localization_dirs]
+    ML10n.localization_dirs.should ==
+      Merb::Plugins.config[:merb_babel][:localization_dirs]
   end
   
   it "should be able to add a new localization directory" do
@@ -24,8 +26,10 @@ describe "ML10n" do
   it "should have a list of localization source files" do
     ML10n.localization_files.should == []
     ML10n.add_localization_dir(@lang_test_path)
-    ML10n.localization_files.include?("#{@lang_test_path}/en.yml").should be_true
-    ML10n.localization_files.include?("#{@lang_test_path}/en-US.yml").should be_true
+    ML10n.localization_files.include?(
+      "#{@lang_test_path}/en.yml").should be_true
+    ML10n.localization_files.include?(
+      "#{@lang_test_path}/en-US.yml").should be_true
   end
   
   it "should load localization files and have them available" do

@@ -95,4 +95,13 @@ describe '#babelize' do
   it "should return MerbBabel::String" do
     @c.t("Hello").class.should == MerbBabel::String
   end
+
+  it "should localize detecting plural or singular" do
+    keys = ["%d book", "%d books"]
+    @c.t(keys, 1).should == "1 book"
+    @c.t(keys, 2).should == "2 books"
+    @c.t(keys, 3).should == "3 books"
+    @c.t(keys, 0).should == "0 books"
+    @c.t(keys, -1).should == "-1 books"
+  end
 end

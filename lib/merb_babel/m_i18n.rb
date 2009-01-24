@@ -1,7 +1,7 @@
 module MI18n
   
   def self.lookup(options)
-    keys = [options[:keys].map{|key| key.to_s}].flatten
+    keys = options[:keys].map{|k| k.class == Symbol ? k.to_s : k}
     language = options[:language]
     country = options[:country]
 
