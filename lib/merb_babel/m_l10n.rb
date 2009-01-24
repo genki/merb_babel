@@ -1,6 +1,19 @@
 module ML10n
   LANGUAGE_CODE_KEY = 'mloc_language_code'.freeze
   COUNTRY_CODE_KEY = 'mloc_country_code'.freeze
+  DEFAULT_DATE_FORMAT = {
+    "DateFormat" => {
+      "less than %d second" => [
+        "less than %d second", "less than %d seconds"],
+      "%d minute" => ["%d minute", "%d minutes"],
+      "about %d hour" => ["about %d hour", "about %d hours"],
+      "%d day" => ["%d day", "%d days"],
+      "about %d month" => ["about %d month", "about %d months"],
+      "%d month" => ["%d month", "%d months"],
+      "about %d year" => ["about %d year", "about %d years"],
+      "over %d year" => ["over %d year", "over %d years"]
+    }
+  }.freeze
   
   class << self
   
@@ -98,23 +111,12 @@ module ML10n
     end
 
     def reset_localizations!
-      @@localizations = {
-        Merb::Plugins.config[:merb_babel][:default_language].to_s => {
-          Merb::Plugins.config[:merb_babel][:default_country].to_s => {
-            "DateFormat" => {
-              "less than %d second" => [
-                "less than %d second", "less than %d seconds"],
-              "%d minute" => ["%d minute", "%d minutes"],
-              "about %d hour" => ["about %d hour", "about %d hours"],
-              "%d day" => ["%d day", "%d days"],
-              "about %d month" => ["about %d month", "about %d months"],
-              "%d month" => ["%d month", "%d months"],
-              "about %d year" => ["about %d year", "about %d years"],
-              "over %d year" => ["over %d year", "over %d years"]
-            }
-          }
-        }
-      }
+      language = Merb::Plugins.config[:merb_babel][:default_language].to_s
+      country = Merb::Plugins.config[:merb_babel][:default_country].to_s
+      @@localizations = {}
+    ensure
+      @@localizations[language] = DEFAULT_DATE_FORMAT.dup
+      @@localizations[language][country] = DEFAULT_DATE_FORMAT.dup
     end
   
     def reload_localization_files!

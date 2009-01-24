@@ -26,6 +26,7 @@ describe "MerbBabel::Time" do
     time_ago[2*60*60].ago_in_words.should == "about 2 hours"
     time_ago[24*60*60].ago_in_words.should == "1 day"
     time_ago[2*24*60*60].ago_in_words.should == "2 days"
+    time_ago[22*24*60*60].ago_in_words.should == "22 days"
     time_ago[30*24*60*60].ago_in_words.should == "about 1 month"
     time_ago[4*30*24*60*60].ago_in_words.should == "4 months"
     time_ago[13*30*24*60*60].ago_in_words.should == "about 1 year"
