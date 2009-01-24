@@ -38,8 +38,6 @@ if defined?(Merb::Plugins)
             else
               MI18n.lookup(options.merge(:keys => args))
             end
-          rescue
-            key.to_s
           end
         end
         alias :translate :babelize
