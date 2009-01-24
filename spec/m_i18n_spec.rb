@@ -5,8 +5,10 @@ describe '#babelize' do
   before(:each) do
     Merb::Controller.send :include, Merb::GlobalHelpers
     @c = dispatch_to(TestController, :index)
-    ML10n.add_localization_dir(File.expand_path(File.dirname(__FILE__) + "/lang"))
-    ML10n.add_localization_dir(File.expand_path(File.dirname(__FILE__) + "/other_lang_dir"))
+    ML10n.add_localization_dir(
+      File.expand_path(File.dirname(__FILE__) + "/lang"))
+    ML10n.add_localization_dir(
+      File.expand_path(File.dirname(__FILE__) + "/other_lang_dir"))
     ML10n.load_localization!
   end
 
@@ -88,5 +90,9 @@ describe '#babelize' do
   it "should localize time by using default yml if correct one is lacking" do
     date = Date.new(2009,1,1)
     @c.t("%B", date, :language => 'tlh').should == "January"
+  end
+
+  it "should return MerbBabel::String" do
+    @c.t("Hello").class.should == MerbBabel::String
   end
 end

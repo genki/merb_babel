@@ -14,6 +14,7 @@ if defined?(Merb::Plugins)
   require File.join(File.dirname(__FILE__) / "merb_babel" / "m_locale")
   require File.join(File.dirname(__FILE__) / "merb_babel" / "m_l10n")
   require File.join(File.dirname(__FILE__) / "merb_babel" / "m_i18n")
+  require File.join(File.dirname(__FILE__) / "merb_babel" / "string")
   require File.join(File.dirname(__FILE__) / "merb_babel" / 'locale_detector')
   gem "locale"
   require 'locale'
@@ -37,8 +38,8 @@ if defined?(Merb::Plugins)
             else
               MI18n.lookup(options.merge(:keys => args))
             end
-          #rescue
-          #  key.to_s
+          rescue
+            key.to_s
           end
         end
         alias :translate :babelize

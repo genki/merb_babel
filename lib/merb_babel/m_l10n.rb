@@ -49,7 +49,7 @@ module ML10n
       ML10n.reset_localization_files! 
       ML10n.find_localization_files.each do |l_file|
         begin
-          l_hash = YAML.load_file(l_file)#.symbolize_keys
+          l_hash = YAML.load_file(l_file)
         rescue Exception => e
           # might raise a real error here in the future
           p e.inspect

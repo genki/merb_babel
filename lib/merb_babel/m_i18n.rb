@@ -16,10 +16,11 @@ module MI18n
     full_location = nil
     full_location = lookup_with_full_locale(keys, language, country) if country
     
-    if full_location
-      return full_location
-    else
-      return lookup_with_language(keys, language) || keys.last
+    result = full_location || lookup_with_language(keys, language) || keys.last
+    case result
+    when String
+      MerbBabel::String.new(result)
+    else result
     end
   end
 
