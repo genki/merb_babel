@@ -34,23 +34,23 @@ describe "MerbBabel::Storage" do
   it "should load localization files and have them available" do
     MerbBabel::Storage.add_localization_dir(@lang_test_path)
     MerbBabel::Storage.load_localization!
-    MerbBabel::localizations['en']['right'].should == 'right'
-    MerbBabel::localizations['en']['left'].should == 'left'
-    MerbBabel::localizations['en']['US']['greetings'].should == 'Howdie'
+    MerbBabel::lookup('en', 'right').should == 'right'
+    MerbBabel::lookup('en', 'left').should == 'left'
+    MerbBabel::lookup('en', 'US', 'greetings').should == 'Howdie'
   end
   
   it "should load more localization files and have them available" do
     MerbBabel::Storage.add_localization_dir(@lang_test_path)
     MerbBabel::Storage.load_localization!
-    MerbBabel::localizations['en']['right'].should == 'right'
-    MerbBabel::localizations.has_key?('fr').should be_false
+    MerbBabel::lookup('en', 'right').should == 'right'
+    MerbBabel::should_not be_exist('fr')
     
     MerbBabel::Storage.add_localization_dir(@lang_test_path_2)
     MerbBabel::Storage.load_localization!
-    MerbBabel::localizations['en']['right'].should == 'right'
-    MerbBabel::localizations.has_key?('fr').should be_true
-    MerbBabel::localizations['fr']['right'].should == 'la droite'
-    MerbBabel::localizations['fr']['left'].should == 'la gauche'
-    MerbBabel::localizations['fr']['greetings'].should == 'Salut'
+    MerbBabel::lookup('en', 'right').should == 'right'
+    MerbBabel::should be_exist('fr')
+    MerbBabel::lookup('fr', 'right').should == 'la droite'
+    MerbBabel::lookup('fr', 'left').should == 'la gauche'
+    MerbBabel::lookup('fr', 'greetings').should == 'Salut'
   end
 end

@@ -151,7 +151,17 @@ module MerbBabel
     end
   end
 
-  def self.localizations
-    Storage::localizations
+module_function
+  def exist?(*keys)
+    keys.inject(Storage::localizations) do |result, key|
+      return false unless result.has_key?(key)
+      result.is_a?(Hash) ? result[key] : true
+    end
+  end
+
+  def lookup(*keys)
+    keys.inject(Storage::localizations) do |result, key|
+      result[key]
+    end
   end
 end
