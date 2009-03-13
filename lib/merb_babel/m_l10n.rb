@@ -36,11 +36,11 @@ module ML10n
       object.strftime(format)
     end
 
-    def localize_ordinal(key, keys, options)
+    def localize_ordinal(number, keys, options)
       formats = MI18n.lookup(options.merge(:keys => keys))
       formats = formats.to_a
-      format = key <= 0 ? nil : formats[key - 1] || nil
-      (format || formats.last) % key
+      format = number <= 0 ? nil : formats[number - 1] || nil
+      (format || formats.last) % number
     end
   end
 end
