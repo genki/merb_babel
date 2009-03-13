@@ -7,11 +7,11 @@ module MI18n
 
     raise ArgumentError, "You need to pass a language reference" unless language
     raise ArgumentError, "You need to pass a localization key" if keys.empty?
-    unless ML10n.localizations[language]
+    unless MerbBabel::localizations[language]
       language = Merb::Plugins.config[:merb_babel][:default_language]
     end
     raise ArgumentError,
-      "language: #{language} not found" unless ML10n.localizations[language]
+      "language: #{language} not found" unless MerbBabel.localizations[language]
     
     full_location = nil
     full_location = lookup_with_full_locale(keys, language, country) if country
@@ -25,13 +25,14 @@ module MI18n
   end
 
   def self.lookup_with_language(keys, language)
-    lookup_with_hash(keys, ML10n.localizations[language])
+    lookup_with_hash(keys, MerbBabel.localizations[language])
   end
   
   def self.lookup_with_full_locale(keys, language, country)
-    if ML10n.localizations.has_key?(language)
-      ML10n.localizations[language].has_key?(country) ?
-        lookup_with_hash(keys, ML10n.localizations[language][country]) : nil 
+    if MerbBabel.localizations.has_key?(language)
+      MerbBabel.localizations[language].has_key?(country) ?
+        lookup_with_hash(keys,
+          MerbBabel.localizations[language][country]) : nil 
     else
       nil
     end

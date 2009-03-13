@@ -5,15 +5,15 @@ describe "MerbBabel::Time" do
   before(:each) do
     Merb::Controller.send :include, Merb::GlobalHelpers
     @c = dispatch_to(TestController, :index)
-    ML10n.add_localization_dir(
+    MerbBabel::Storage.add_localization_dir(
       File.expand_path(File.dirname(__FILE__) + "/lang"))
-    ML10n.add_localization_dir(
+    MerbBabel::Storage.add_localization_dir(
       File.expand_path(File.dirname(__FILE__) + "/other_lang_dir"))
-    ML10n.load_localization!
+    MerbBabel::Storage.load_localization!
   end
 
   after(:each) do
-    ML10n.reset_localizations!
+    MerbBabel::Storage.reset_localizations!
   end
 
   it "should be able to be converted into words" do

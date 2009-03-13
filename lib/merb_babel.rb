@@ -2,6 +2,16 @@
 
 # make sure we're running inside Merb
 if defined?(Merb::Plugins)
+  
+  require File.join(File.dirname(__FILE__), %w(merb_babel m_locale))
+  require File.join(File.dirname(__FILE__), %w(merb_babel m_l10n))
+  require File.join(File.dirname(__FILE__), %w(merb_babel m_i18n))
+  require File.join(File.dirname(__FILE__), %w(merb_babel string))
+  require File.join(File.dirname(__FILE__), %w(merb_babel time))
+  require File.join(File.dirname(__FILE__), %w(merb_babel locale_detector))
+  require File.join(File.dirname(__FILE__), %w(merb_babel storage))
+  gem "locale"
+  require 'locale'
 
   # Merb gives you a Merb::Plugins.config hash...feel free to put your stuff in your piece of it
   Merb::Plugins.config[:merb_babel] = {
@@ -10,15 +20,6 @@ if defined?(Merb::Plugins)
     :default_country => 'US',
     :localization_dirs => ["#{Merb.root}/lang"]
   }
-  
-  require File.join(File.dirname(__FILE__) / "merb_babel" / "m_locale")
-  require File.join(File.dirname(__FILE__) / "merb_babel" / "m_l10n")
-  require File.join(File.dirname(__FILE__) / "merb_babel" / "m_i18n")
-  require File.join(File.dirname(__FILE__) / "merb_babel" / "string")
-  require File.join(File.dirname(__FILE__) / "merb_babel" / "time")
-  require File.join(File.dirname(__FILE__) / "merb_babel" / 'locale_detector')
-  gem "locale"
-  require 'locale'
   
   Merb::BootLoader.before_app_loads do
     # require code that must be loaded before the application
@@ -54,7 +55,8 @@ if defined?(Merb::Plugins)
     end
     
     Merb::Controller.send(:include, MLocale)
-    ML10n.load_localization!
+    #ML10n.load_localization!
+    MerbBabel::Storage.load_localization!
   end
   
   Merb::BootLoader.after_app_loads do
